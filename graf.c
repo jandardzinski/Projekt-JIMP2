@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <ctype.h>
 
 typedef struct Node
 {
@@ -30,8 +31,7 @@ void add_edge(node_t* graph, int* index, node_t node, int n)  //funkcja dodajaca
         node->edge = n;					//ilosc polaczen (krawedzi)  dla danego wybranego losowo wierzcholka 
         node->next = malloc(sizeof(node_t) * n);		//w kazdym wierzcholku alokujemy pamiec dla odpowiedniej ilosci wierzcholkow  z ktorymi on sie laczy
         for(int i = 0; i < n; i++)
-                 node->next[i] = graph[index[i]];		// wypelniamy kazdy element listy danego wierzcholka numerami losowo wybranych wierzcholkow
-
+                 node->next[i] = graph[index[i]];		// wypelniamy kazdy element listy danego wierzcholka numerami z tablicy
 }
 
 void f_graph(node_t* graph, int n) 			//funkcja zwalniajaca pamiec grafu
@@ -99,15 +99,30 @@ void matrix(node_t* graph, int n)			// funkcja tworzaca macierz sasiedztwa
 	
 	fprintf(out, "\n");
 	p_graph(graph, n, out);
+}
+int is_number(char *s)
+{
+	while(s++)
+	{
+		if(*s == '\0')
+                        return 1;
 
-
+		else if(!isdigit(*s))
+		{
+			//printf("%c\n", *s);
+			return 0;
+		}
+	}
+		return 1;
 
 }
 
 int main(int argc, char **argv) 				// no i tu main juz
 {
     srand(time(NULL));						// ustawiamy seeda na NULL, aby za kazdym razem kiedy odpalamy program dostac inne losowe wartosci				
-    int n = argc > 1 ? atoi(argv[1]) : 10;			// ilosc wierzcholkow w grafie podawana z poziomu konsoli
+    int n = argc > 1 ? atoi(argv[1]) : 10; 		// ilosc wierzcholkow w grafie podawana z poziomu konsoli
+	if(is_number(argv[1]) == 0 || n < 0)
+	printf("Podana wartosc jest bledna!\n");
     node_t *graph = c_graph(n);					// tworzy sie graf na podstawie tej ilosci ( alokacja pamieci)
 
     int *index; 						
