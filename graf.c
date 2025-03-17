@@ -102,7 +102,7 @@ void matrix(node_t* graph, int n)			// funkcja tworzaca macierz sasiedztwa
 }
 int is_number(char *s)
 {
-	while(s++)
+	while(s)
 	{
 		if(*s == '\0')
                         return 1;
@@ -112,6 +112,9 @@ int is_number(char *s)
 			//printf("%c\n", *s);
 			return 0;
 		}
+
+		s++;
+		
 	}
 		return 1;
 
@@ -122,7 +125,10 @@ int main(int argc, char **argv) 				// no i tu main juz
     srand(time(NULL));						// ustawiamy seeda na NULL, aby za kazdym razem kiedy odpalamy program dostac inne losowe wartosci				
     int n = argc > 1 ? atoi(argv[1]) : 10; 		// ilosc wierzcholkow w grafie podawana z poziomu konsoli
 	if(is_number(argv[1]) == 0 || n < 0)
-	printf("Podana wartosc jest bledna!\n");
+	{
+		printf("Podana wartosc jest bledna!\n");
+		return -1;
+	}
     node_t *graph = c_graph(n);					// tworzy sie graf na podstawie tej ilosci ( alokacja pamieci)
 
     int *index; 						
